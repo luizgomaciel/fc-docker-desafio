@@ -1,0 +1,42 @@
+version: '3'
+
+networks:
+  nginx-node-network:
+    driver: bridge
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - './nginx/default.conf:/etc/nginx/conf.d/default.conf'
+    networks:
+      - nginx-node-network
+
+  app-node:
+    container_name: app
+    image: lgmaciel/app-node
+    ports:
+      - 3000:3000
+    networks:
+      - nginx-node-network
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nodedb
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - nginx-node-network
+
+volumes:
+  mysql-data:
