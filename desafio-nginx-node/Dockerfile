@@ -9,8 +9,6 @@ WORKDIR /usr/src/app
 
 RUN npm init -y && npm install express mysql2 @faker-js/faker
 
-COPY node/index.js .
-
 EXPOSE 3000
 
 CMD ["wait-for", "mysql:3306", "--", "node", "index.js"]

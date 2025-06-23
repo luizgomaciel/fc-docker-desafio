@@ -16,9 +16,11 @@ services:
 
   app-node:
     container_name: app
-    image: lgmaciel/app-node
+    image: lgmaciel/app-node:1.0.1
     ports:
       - 3000:3000
+    volumes:
+      - './node/index.js:/usr/src/app/index.js'
     networks:
       - nginx-node-network
     depends_on:
